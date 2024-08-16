@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y tor obfs4proxy && \
 # Create a non-root user and group
 RUN groupadd -r tor && useradd -r -g tor tor
 
-# Create the necessary directory and set the correct permissions
-RUN mkdir -p /home/tor/.tor && chown -R tor:tor /home/tor
+# Create necessary directories and set the correct permissions
+RUN mkdir -p /var/lib/tor && chown -R tor:tor /var/lib/tor /home/tor/.tor
 
 # Copy the torrc configuration file to the correct location
 COPY torrc /etc/tor/torrc
@@ -23,7 +23,7 @@ RUN cat /etc/tor/bridges.txt >> /etc/tor/torrc
 # Expose Tor SOCKS proxy port
 EXPOSE 9050
 
-# Run Tor as a non-root user
+# Run as the tor user
 USER tor
 
 # Run Tor with the specified configuration file
