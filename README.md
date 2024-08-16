@@ -76,9 +76,6 @@ You can modify the `docker-compose.yml` file to customize the behavior of the To
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the existing code style and add tests for any new features.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Acknowledgments
 
