@@ -1,0 +1,16 @@
+SocksPort 0.0.0.0:9050
+DataDirectory /home/tor/.tor
+Log notice stdout
+RunAsDaemon 0
+ClientOnly 1
+AvoidDiskWrites 1
+UseBridges 1
+
+# Configure obfs4 transport
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy
+
+# List of obfs4 bridges
+Bridge obfs4 89.166.230.178:8080 02F00A33017A24E99112E5CA498AECD204F913F3 cert=eWfCYOE/3kdmDpYy/tT0CuKI01dWKY6BtSAMSu0uuD4ixo7RE4/av+0fNjw4sbZmORLKVQ iat-mode=0
+Bridge obfs4 185.177.207.207:11207 68442AB73C13232E52DEE14E465579078C04C1DE cert=6LQlxxEUXiID03RBiOxh+72gFtOfV+4YJ/ly6LE+58glQMAnIhAPWhpdxBYX+ulXiOdGUA iat-mode=2
+Bridge obfs4 79.137.11.77:56490 A95B850794AC06841FB93F32AD3C997FA8836E52 cert=C+Xz1PxmruAyp9uehauc9u+l+RJG6cZ3x+l3qMJaejVy8iJDTxqi6uOvTxFlrnJL/bMXcg iat-mode=0
+Bridge obfs4 193.70.74.188:9831 23817363721D5DD71B658F37EE6D92F89B90E06B cert=jjWFUtbXZlygVFbVOUwLc1Ipdg0H/iiMEAHGOcWv2z6+UTiHoySvtxgvfbnMPLBmh2CvcQ iat-mode=0
