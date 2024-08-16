@@ -6,8 +6,7 @@ services:
     ports:
       - "9001:9001"    # ORPort for incoming Tor client connections
       - "9050:9050"    # SOCKS port for local use
-    volumes:
-      - ./torrc:/etc/tor/torrc  # Bind mount the torrc file
+    
     restart: always
     security_opt:
       - no-new-privileges:true

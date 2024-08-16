@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y tor obfs4proxy && \
 RUN groupadd -r tor && useradd -r -g tor tor
 
 # Create necessary directories and set the correct permissions
-RUN mkdir -p /var/lib/tor && chown -R tor:tor /var/lib/tor /home/tor/.tor
+RUN mkdir -p /var/lib/tor /home/tor/.tor /var/log/tor && chown -R tor:tor /var/lib/tor /home/tor/.tor /var/log/tor
 
 # Copy the torrc configuration file to the correct location
 COPY torrc /etc/tor/torrc
