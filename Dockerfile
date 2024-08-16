@@ -11,14 +11,19 @@ RUN groupadd -r tor && useradd -r -g tor tor
 # Create the necessary directory and set the correct permissions
 RUN mkdir -p /home/tor/.tor && chown -R tor:tor /home/tor
 
-# Ensure the torrc file is copied and has correct permissions
+# Copy the torrc configuration file to the correct location
 COPY torrc /etc/tor/torrc
-RUN chown tor:tor /etc/tor/torrc
+
+# Copy the pre-fetched bridges to the correct location
+COPY bridges.txt /etc/tor/bridges.txt
+
+# Ensure the torrc file is updated with bridges
+RUN cat /etc/tor/bridges.txt >> /etc/tor/torrc
 
 # Expose Tor SOCKS proxy port
 EXPOSE 9050
 
-# Run as the tor user
+# Run Tor as a non-root user
 USER tor
 
 # Run Tor with the specified configuration file
