@@ -1,16 +1,125 @@
-SocksPort 0.0.0.0:9050
-DataDirectory /home/tor/.tor
-Log notice stdout
-RunAsDaemon 0
+# Tor Configuration File (torrc)
+
+## 1. Basic Settings
+
+# Run Tor as a client only
 ClientOnly 1
-AvoidDiskWrites 1
+
+# Set the data directory for storing Tor's state and cache files
+DataDirectory /var/lib/tor
+
+# Set the log file location and level (Notice recommended for general use)
+Log notice file /var/log/tor/notices.log
+
+## 2. Networking Options
+
+# Bind to a specific IP address (localhost for increased security)
+SocksPort 127.0.0.1:9050
+
+# Restrict which applications can access the SocksPort
+# DisableAllClientPorts 1
+
+# Set a control port for Tor; necessary for using tools like the Tor Browser or Stem
+ControlPort 9051
+
+# Disable DNS resolution through Tor for security reasons
+DNSPort 0
+
+# Disable allowing Tor to automatically create hidden services
+DisableNetwork 0
+
+## 3. Performance and Security Enhancements
+
+# Reduce the risk of Tor overusing system resources
+NumCPUs 1
+
+# Enforce safe cookie authentication for the control port
+CookieAuthentication 1
+
+# Limit the number of circuits per node to prevent correlation attacks
+MaxCircuitDirtiness 10 minutes
+
+# Ensure that Tor doesn't use nodes that are too old or unreliable
+ExcludeNodes {badexit}, {known-bad}
+
+# Avoid using exit nodes from certain countries (e.g., Russia, China)
+ExcludeExitNodes {RU},{CN}
+
+# Specify custom entry guards to mitigate certain attacks
+UseEntryGuards 1
+EntryNodes guard1,guard2,guard3
+
+## 4. Privacy Enhancements
+
+# Disable features that can leak information
+ClientUseIPv6 0
+ClientPreferIPv6ORPort 0
+SafeLogging 1
+
+# Reduce the risk of deanonymization by limiting circuit reuse
+CircuitBuildTimeout 10
+LearnCircuitBuildTimeout 0
+
+## 5. Hidden Services (Optional)
+
+# Define hidden services if needed
+# HiddenServiceDir /var/lib/tor/hidden_service/
+# HiddenServicePort 80 127.0.0.1:8080
+
+## 6. Advanced Security Features
+
+# Use onion services exclusively for .onion addresses
+OnionTrafficOnly 1
+
+# Only use specific exit nodes that you trust (replace with fingerprints)
+# StrictNodes 1
+# ExitNodes fingerprint1,fingerprint2
+
+# Minimize the risks of running an exit node
+ExitPolicy reject *:*
+
+# Avoid using old or vulnerable versions of Tor
+EnforceDistinctSubnets 1
+
+# Disable WebRTC in browsers to avoid IP leaks
+# This setting is browser-dependent and must be done outside the torrc file.
+
+## 7. Automatic Bridging
+
+# Use bridges for added security and censorship circumvention
 UseBridges 1
 
-# Configure obfs4 transport
+# Automatically obtain and use bridges
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy
 
-# List of obfs4 bridges
-Bridge obfs4 89.166.230.178:8080 02F00A33017A24E99112E5CA498AECD204F913F3 cert=eWfCYOE/3kdmDpYy/tT0CuKI01dWKY6BtSAMSu0uuD4ixo7RE4/av+0fNjw4sbZmORLKVQ iat-mode=0
-Bridge obfs4 185.177.207.207:11207 68442AB73C13232E52DEE14E465579078C04C1DE cert=6LQlxxEUXiID03RBiOxh+72gFtOfV+4YJ/ly6LE+58glQMAnIhAPWhpdxBYX+ulXiOdGUA iat-mode=2
-Bridge obfs4 79.137.11.77:56490 A95B850794AC06841FB93F32AD3C997FA8836E52 cert=C+Xz1PxmruAyp9uehauc9u+l+RJG6cZ3x+l3qMJaejVy8iJDTxqi6uOvTxFlrnJL/bMXcg iat-mode=0
-Bridge obfs4 193.70.74.188:9831 23817363721D5DD71B658F37EE6D92F89B90E06B cert=jjWFUtbXZlygVFbVOUwLc1Ipdg0H/iiMEAHGOcWv2z6+UTiHoySvtxgvfbnMPLBmh2CvcQ iat-mode=0
+# Request bridges from Tor's BridgeDB
+BridgeBridgeDB <enter_email_here> <replace_with_country_code> 
+
+# Automatically use bridges when needed
+AutoUseBridges 1
+
+## 8. Miscellaneous
+
+# Reduce the risk of system compromises
+RunAsDaemon 1
+
+# Harden against timing attacks by randomizing circuit delays
+CircuitStreamTimeout 0
+
+# Disable potentially dangerous features
+AllowSingleHopCircuits 0
+
+# Disable directory fetches from authorities (only use cached directory information)
+FetchDirInfoEarly 1
+FetchDirInfoExtraEarly 1
+
+# Disable potentially risky features like IPv6 ORPort if not needed
+IPv6Exit 0
+
+## 9. Experimental Features (Use with caution)
+
+# Enable sandboxing if Tor is built with sandbox support
+# SandboxedExecution 1
+
+# Use DoH (DNS over HTTPS) to protect against DNS leaks
+# DoHServer dns.google
