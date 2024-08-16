@@ -11,6 +11,9 @@ RUN groupadd -r tor && useradd -r -g tor tor
 # Create the necessary directory and set the correct permissions
 RUN mkdir -p /home/tor/.tor && chown -R tor:tor /home/tor
 
+# Ensure the necessary directories are writable
+RUN chown -R tor:tor /home/tor/.tor /run /tmp && chmod -R 700 /home/tor/.tor
+
 # Add Tor configuration file
 COPY torrc /etc/tor/torrc
 

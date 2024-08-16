@@ -5,3 +5,19 @@ services:
     build: .
     ports:
       - "9050:9050"
+    restart: always
+    security_opt:
+      - no-new-privileges:true  # Prevent the container from gaining new privileges
+    cap_drop:
+      - ALL                     # Drop all capabilities to minimize privilege escalation risks
+    read_only: true             # Run the container's filesystem as read-only
+    tmpfs:
+      - /run                    # Temporary filesystem for /run
+      - /tmp                    # Temporary filesystem for /tmp
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:9050"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0  # Allow binding to ports below 1024
