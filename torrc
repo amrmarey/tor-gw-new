@@ -39,15 +39,12 @@ CookieAuthentication 1
 # Limit the number of circuits per node to prevent correlation attacks
 MaxCircuitDirtiness 10 minutes
 
-# Ensure that Tor doesn't use nodes that are too old or unreliable
-ExcludeNodes {badexit}, {known-bad}
+# Exclude specific nodes or countries (replace with actual node fingerprints or country codes)
+# Example: ExcludeNodes AA1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P, {RU}, {CN}
+# ExcludeNodes 
 
 # Avoid using exit nodes from certain countries (e.g., Russia, China)
-ExcludeExitNodes {RU},{CN}
-
-# Specify custom entry guards to mitigate certain attacks
-UseEntryGuards 1
-EntryNodes guard1,guard2,guard3
+# ExcludeExitNodes {RU},{CN}
 
 ## 4. Privacy Enhancements
 
@@ -68,21 +65,8 @@ LearnCircuitBuildTimeout 0
 
 ## 6. Advanced Security Features
 
-# Use onion services exclusively for .onion addresses
-OnionTrafficOnly 1
-
-# Only use specific exit nodes that you trust (replace with fingerprints)
-# StrictNodes 1
-# ExitNodes fingerprint1,fingerprint2
-
 # Minimize the risks of running an exit node
 ExitPolicy reject *:*
-
-# Avoid using old or vulnerable versions of Tor
-EnforceDistinctSubnets 1
-
-# Disable WebRTC in browsers to avoid IP leaks
-# This setting is browser-dependent and must be done outside the torrc file.
 
 ## 7. Automatic Bridging
 
@@ -92,11 +76,8 @@ UseBridges 1
 # Automatically obtain and use bridges
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy
 
-# Request bridges from Tor's BridgeDB
-BridgeBridgeDB <enter_email_here> <replace_with_country_code> 
-
-# Automatically use bridges when needed
-AutoUseBridges 1
+# Example for using automatic bridge fetching (requires replacing with actual configuration)
+# BridgeBridgeDB <enter_email_here> <replace_with_country_code> 
 
 ## 8. Miscellaneous
 
@@ -107,7 +88,7 @@ RunAsDaemon 1
 CircuitStreamTimeout 0
 
 # Disable potentially dangerous features
-AllowSingleHopCircuits 0
+# Removed: AllowSingleHopCircuits, as it is obsolete and not needed
 
 # Disable directory fetches from authorities (only use cached directory information)
 FetchDirInfoEarly 1
