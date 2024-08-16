@@ -16,9 +16,6 @@ Log notice file /var/log/tor/notices.log
 # Bind to a specific IP address (localhost for increased security)
 SocksPort 127.0.0.1:9050
 
-# Restrict which applications can access the SocksPort
-# DisableAllClientPorts 1
-
 # Set a control port for Tor; necessary for using tools like the Tor Browser or Stem
 ControlPort 9051
 
@@ -28,79 +25,4 @@ DNSPort 0
 # Disable allowing Tor to automatically create hidden services
 DisableNetwork 0
 
-## 3. Performance and Security Enhancements
-
-# Reduce the risk of Tor overusing system resources
-NumCPUs 1
-
-# Enforce safe cookie authentication for the control port
-CookieAuthentication 1
-
-# Limit the number of circuits per node to prevent correlation attacks
-MaxCircuitDirtiness 10 minutes
-
-# Exclude specific nodes or countries (replace with actual node fingerprints or country codes)
-# Example: ExcludeNodes AA1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P, {RU}, {CN}
-# ExcludeNodes 
-
-# Avoid using exit nodes from certain countries (e.g., Russia, China)
-# ExcludeExitNodes {RU},{CN}
-
-## 4. Privacy Enhancements
-
-# Disable features that can leak information
-ClientUseIPv6 0
-ClientPreferIPv6ORPort 0
-SafeLogging 1
-
-# Reduce the risk of deanonymization by limiting circuit reuse
-CircuitBuildTimeout 10
-LearnCircuitBuildTimeout 0
-
-## 5. Hidden Services (Optional)
-
-# Define hidden services if needed
-# HiddenServiceDir /var/lib/tor/hidden_service/
-# HiddenServicePort 80 127.0.0.1:8080
-
-## 6. Advanced Security Features
-
-# Minimize the risks of running an exit node
-ExitPolicy reject *:*
-
-## 7. Automatic Bridging
-
-# Use bridges for added security and censorship circumvention
-UseBridges 1
-
-# Automatically obtain and use bridges
-ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy
-
-# Example for using automatic bridge fetching (requires replacing with actual configuration)
-# BridgeBridgeDB <enter_email_here> <replace_with_country_code> 
-
-## 8. Miscellaneous
-
-# Reduce the risk of system compromises
-RunAsDaemon 1
-
-# Harden against timing attacks by randomizing circuit delays
-CircuitStreamTimeout 0
-
-# Disable potentially dangerous features
-# Removed: AllowSingleHopCircuits, as it is obsolete and not needed
-
-# Disable directory fetches from authorities (only use cached directory information)
-FetchDirInfoEarly 1
-FetchDirInfoExtraEarly 1
-
-# Disable potentially risky features like IPv6 ORPort if not needed
-IPv6Exit 0
-
-## 9. Experimental Features (Use with caution)
-
-# Enable sandboxing if Tor is built with sandbox support
-# SandboxedExecution 1
-
-# Use DoH (DNS over HTTPS) to protect against DNS leaks
-# DoHServer dns.google
+# The actual bridge lines will be appended here by the Dockerfile
